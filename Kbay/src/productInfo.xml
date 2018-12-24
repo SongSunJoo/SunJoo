@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productInfons">
+	<resultMap type="productInfo" id="productInfoResult">
+		<result property="p_num" 		column="p_num" />
+		<result property="p_name" 		column="p_name" />
+		<result property="p_used" 		column="p_used" />
+		<result property="p_price" 		column="p_price" />
+		<result property="p_start_date" column="p_start_date" />
+		<result property="p_end_date" 	column="p_end_date" />
+		<result property="p_buyer" 		column="p_buyer" />
+		<result property="p_image" 		column="p_image" />
+		<result property="id" 			column="id"/>
+		<result property="p_auct_id" 	column="p_auct_id"/>
+		<result property="p_class_id1" 	column="p_class_id1"/>
+		<result property="p_class_id2" 	column="p_class_id2"/>
+		<result property="a_num" 		column="a_num"/>
+		<result property="a_price" 		column="a_price"/>
+		<result property="a_id" 		column="a_id"/>
+		<result property="a_reg_date" 	column="a_reg_date"/>
+		<result property="p_class_name1" column="p_class_name1" />
+		<result property="p_class_name2" column="p_class_name2" />
+		<result property="p_auct_desc" 	column="p_auct_desc" />
+	</resultMap>
+	
+	<select id="list1" parameterType="hashMap" resultMap="productInfoResult">
+		select * from (select a.*, rowNum rn from (select * from product where id=#{id} order by p_start_date desc) a)
+		where  rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="list2" parameterType="hashMap" resultMap="productInfoResult">		
+		select * from (select a.*, rowNum rn from 
+			(select p.* from 
+				(select distinct(au.p_num) from auction au where au.a_id=#{id}) list, product p 
+	 		 where p.p_num = list.p_num order by p.p_end_date desc) a)
+		where  rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="list3" parameterType="hashMap" resultMap="productInfoResult">		
+		select * from (select a.*, rowNum rn from (select * from product where p_buyer = #{id} and p_auct_id = 1) a)
+		where  rn between #{startRow} and #{endRow}		
+	</select>
+
+	<select id="listTotal1" parameterType="string" resultType="int">
+		select count(*) from product where id=#{id}
+	</select> 
+	
+	<select id="listTotal2" parameterType="string" resultType="int">
+		select count(*) 
+		from (select distinct(p_num) from auction where a_id=#{id})
+	</select>
+	
+	<select id="listTotal3" parameterType="string" resultType="int">
+		select count(*) from product where p_buyer = #{id} and p_auct_id = 1
+	</select>
+
+	<select id="getAuctHistory" parameterType="int" resultMap="productInfoResult">
+		
+		select * from auction where p_num = #{p_num} order by a_num desc
+		
+	</select>
+	
+	<select id="selectMax" resultType="int">
+		select max(p_num) from product
+	</select>
+	
+	<select id="getClass1Name" parameterType="string" resultType="string">
+		select p_class_name1 from productClass1 where p_class_id1=#{p_class_id1}
+	</select>
+	
+	<select id="getClass2Name" parameterType="string" resultType="string">
+		select p_class_name2 from productClass2 where p_class_id2=#{p_class_id2}
+	</select>
+	
+	<select id="getAuctDesc" parameterType="int" resultType="string">
+		select p_auct_desc from auction_result where p_auct_id=#{p_auct_id}
+	</select>
+		
+	<select id="getDetail" parameterType="int" resultType="productInfo">
+		select * from product where p_num=#{p_num}
+	</select>
+	
+	<select id="getAuctPrice" parameterType="int" resultType="int">
+		select nvl(max(a_price), 0) from auction where p_num=#{p_num}
+	</select>
+	
+	<insert id="insert" parameterType="productInfo">
+		<selectKey keyProperty="p_num" order="BEFORE" resultType="int">
+			select nvl(max(p_num), 0)+1 from product
+		</selectKey>
+		insert into product values (#{p_num},#{p_name},#{p_used},#{p_price},#{p_start_date},
+									#{p_end_date},#{p_buyer},#{p_image},#{id},#{p_auct_id},
+									#{p_class_id1},#{p_class_id2})
+	</insert>
+	
+	<insert id="insertAuct" parameterType="productInfo">
+		<selectKey keyProperty="a_num" order="BEFORE" resultType="int">
+			select nvl(max(a_num), 0)+1 from auction
+		</selectKey>
+		insert into auction values (#{a_num},#{a_price},sysdate,#{p_num},#{a_id})
+	</insert>
+	
+	<select id="updateImgName" parameterType="hashMap" resultType="int">
+		update product set p_image = #{p_image} where p_num=#{p_num}
+	</select>
+	
+	<select id="list" parameterType="hashMap" resultMap="productInfoResult">
+		select * from (select a.*, rowNum rn from 
+			( select p_num, p_name, pc1.p_class_name1, pc2.p_class_name2, pc1.p_class_id1, 
+			  pc2.p_class_id2, p_price, p_used, p_start_date, p_end_date 
+			  from product p, productClass1 pc1, productClass2 pc2 
+			  where p.p_class_id1 = pc1.p_class_id1 and p.p_class_id2 = pc2.p_class_id2 
+			        and pc1.p_class_id1=#{p_class_id1} and pc2.p_class_id2=#{p_class_id2} 
+			  order by p_start_date desc) a) 
+		where rn between #{startRow} and #{endRow}
+	</select> 
+	
+  <select id="total" parameterType="hashMap" resultType="int">
+  	select count(*) from product 
+  		where p_class_id1=#{p_class_id1} and p_class_id2=#{p_class_id2}
+  </select>
+   
+  <delete id="delete" parameterType="int">
+  	delete product where p_num=#{p_num}
+  </delete>
+   
+  <select id="auctlist" resultMap="productInfoResult">
+	select * from product where to_date(p_end_date, 'yyyy-mm-dd') <![CDATA[<]]> to_date(sysdate, 'yyyy-mm-dd') and p_auct_id=0
+  </select>
+  
+  <select id="getA_ID" parameterType="int" resultType="String">
+	select * from (select a.*, rowNum rn from 
+			(select a_id from auction where p_num=#{p_num} order by a_reg_date desc) a) 
+			where rn=1
+  </select>
+  
+  <select id="setAuct1" parameterType="hashMap" resultType="int">
+		update product set p_buyer=#{a_id}, p_auct_id=1 where p_num=#{p_num}
+  </select>
+  
+  <select id="setAuct4" parameterType="int" resultType="int">
+		update product set p_auct_id=4 where p_num=#{p_num}
+  </select>
+  
+  <select id="auctCheckCnt" resultType="int">
+  	select count(*) from product where p_end_date <![CDATA[<]]> sysdate
+  </select>
+  
+  <select id="bidding" parameterType="hashMap" resultMap="productInfoResult">
+  	select * from (select a.*, rowNum rn from 
+  		(select p.p_num, p_name, p_image, count(p.p_num), max(a_price) a_price from product p, auction auct 
+  			where p.p_num = auct.p_num and p.p_auct_id = 0 group by p.p_num, p_name, p_image having count(p.p_num) <![CDATA[>=]]> 3 
+  			order by count(p.p_num) desc) a) 
+	where rn between #{startNum} and #{endNum} 
+  </select>
+  
+  <select id="searchList" parameterType="hashMap" resultMap="productInfoResult">
+  	select * from (select a.*, rowNum rn from 
+  		( select p_num, p_name, pc1.p_class_name1, pc2.p_class_name2, pc1.p_class_id1, pc2.p_class_id2, p_price, p_used, p_start_date, p_end_date 
+  			from product p, productClass1 pc1, productClass2 pc2 
+  			where p.p_class_id1 = pc1.p_class_id1 and p.p_class_id2 = pc2.p_class_id2 and p_name like '%' || #{word} || '%' order by p.p_start_date desc) a) 
+  	where rn between #{startRow} and #{endRow}
+  </select>
+   
+  <select id="searchTotal" parameterType="string" resultType="int">
+  	select count(*) from product where p_name like '%' || #{word} || '%'
+  </select>
+</mapper>

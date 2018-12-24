@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/decorator">
+	<decorator name="main" page="views_decorator.jsp">		
+		<pattern>/views/main/main.jsp</pattern>
+		<pattern>/views/login/*</pattern>
+		<pattern>/views/join/*</pattern>
+		<pattern>/views/board/*</pattern>
+		<pattern>/views/knotice/*</pattern>
+		<pattern>/views/kmember/*</pattern>
+		<pattern>/views/product/*</pattern>
+		<pattern>/views/productlist/*</pattern>
+		<pattern>/views/search/*</pattern>
+	</decorator>
+	<decorator name="admin" page="admin_decorator.jsp">		
+		<pattern>/views/admin/*</pattern>
+		<pattern>/views/auction/*</pattern>
+	</decorator>
+	<excludes>
+	  <pattern>/views/login/findId.jsp</pattern>
+	  <pattern>/views/login/findId.*</pattern>  
+	  <pattern>/views/login/findIdResult.*</pattern> 
+	  <pattern>/views/login/findPass.jsp</pattern>
+	  <pattern>/views/login/findPass.*</pattern>  
+	  <pattern>/views/login/findPassResult.*</pattern> 
+	  <pattern>/views/login/idConfirmResult.*</pattern>
+	  <pattern>/views/main/hotBidding.jsp</pattern>
+	  <pattern>/views/main/newItem.jsp</pattern>
+ 	</excludes>
+	
+</decorators>

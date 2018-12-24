@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="auctionns">
+	<resultMap type="auction" id="auctionResult">
+		<result property="a_num" column="a_num" />
+		<result property="a_price" column="a_price" />
+		<result property="a_reg_date" column="a_reg_date" />
+		<result property="p_num" column="p_num" />
+		<result property="a_id" column="a_id" />
+	</resultMap>
+
+	<insert id="insert" parameterType="auction">
+		<selectKey keyProperty="a_num" order="BEFORE" resultType="int">
+			select nvl(max(a_num), 0)+1 from auction
+		</selectKey>
+		insert into auction values (#{a_num},#{a_price},sysdate,#{p_num},#{a_id})
+	</insert>
+</mapper>

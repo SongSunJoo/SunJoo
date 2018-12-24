@@ -1,0 +1,7 @@
+views/myBidding.do=Kbay.service.MyBiddingAction
+views/productInsertForm.do=Kbay.service.ProductInsertForm
+views/productInsert.do=Kbay.service.ProductInsertAction
+views/productDetail.do=Kbay.service.ProductDetailAction
+views/priceInput.do=Kbay.service.PriceInputAction
+views/priceInsert.do=Kbay.service.PriceInsertAction
+views/priceHistory.do=Kbay.service.PriceHistoryAction

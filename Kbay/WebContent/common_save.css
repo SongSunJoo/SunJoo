@@ -1,0 +1,31 @@
+table {
+	border-collapse: collapse;
+	border-top: 2px solid gray;
+	border-bottom: 2px solid gray;
+	/* width: 100%; */
+}
+
+th, td {
+	margin: 0px;
+	padding: 8px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+}
+
+th {
+	background-color: #D9E5FF;
+	border-bottom: 2px solid gray;
+}
+
+td {
+	border: 1px solid gray;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	/* order-bottom: 1px solid gray; */
+}
+
+table tr:hover {
+	background-color: #FC6;
+	cursor: pointer;
+	/* cursor: hand; */
+}

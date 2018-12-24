@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kmemberns">
+	<resultMap type="kmember" 		id="kmemberResult">
+	<!-- 					자바 코딩용  / 테이블 내 컬럼값 -->
+		<!-- <result property="id" 		column="id" />
+		<result property="pass" 	column="pass" />
+		<result property="name" 	column="name" />
+		<result property="addr" 	column="addr" />
+		<result property="tel" 		column="tel" />
+		<result property="email" 		column="email" />
+		<result property="sell_penalty" column="sell_penalty" />
+		<result property="buy_penalty" column="buy_penalty" />
+		<result property="reg_date" column="reg_date" />
+		<result property="del" 		column="del" /> -->
+		<result property="id" 		column="id" />
+		<result property="pass" 	column="pass" />
+		<result property="name" 	column="name" />
+		<result property="tel" 		column="tel" />
+		<result property="email" 		column="email" />
+		<result property="addr" 	column="addr" />
+		<result property="sell_penalty" column="sell_penalty" />
+		<result property="buy_penalty" column="buy_penalty" />
+		<result property="reg_date" column="reg_date" />
+		<result property="del" 		column="del" />
+	</resultMap>
+	
+	<select id="select" parameterType="string" resultType="kmember">
+		select * from kmember where id=#{id} and del='n'
+	</select>
+	
+	<insert id="insert" parameterType="kmember">
+		insert into kmember values (#{id}, #{pass}, #{name},
+			 #{addr}, #{tel}, #{email}, 5, 5, sysdate, 'n')
+	</insert>
+	
+	<update id="update" parameterType="kmember">
+		update kmember set pass=#{pass}, name=#{name},
+		 	email=#{email}, addr=#{addr} where id=#{id} and del='n'
+	</update>
+	
+	<update id="delete" parameterType="string">
+		update kmember set del='y' where id=#{id}	
+	</update>
+	
+	<select id="findId" parameterType="string" resultType="kmember">
+		select * from kmember where tel=#{tel} and del='n'
+	</select>
+	
+	<select id="findPass" parameterType="string" resultType="kmember">
+		select * from kmember where id=#{id} and del='n'	
+	</select>
+	
+	<select id="idConfirm" parameterType="string" resultType="string">
+		select id from kmember where id=#{id}
+	</select>
+	
+</mapper>

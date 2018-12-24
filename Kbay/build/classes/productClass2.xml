@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productClass2ns">
+	<resultMap type="productClass2" id="productClass2Result">
+		<result property="p_class_id1" column="p_class_id1" />
+		<result property="p_class_id2" column="p_class_id2" />
+		<result property="p_class_name2" column="p_class_name2" />
+	</resultMap>
+
+	<!-- <select id="list" resultMap="productClass2Result">
+		select * from productClass2 where p_class_id1=#{class1}
+	</select> -->
+</mapper>

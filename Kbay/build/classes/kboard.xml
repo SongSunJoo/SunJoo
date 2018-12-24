@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kboardns">
+	<resultMap type="kboard" 		id="kboardResult">
+		<!-- 			자바 코딩용		  / 	테이블 내 컬럼값	 -->
+		<result property="b_num" 		column="b_num" />
+		<result property="b_subject" 	column="b_subject" />
+		<result property="b_content" 	column="b_content" />
+		<result property="b_readcount" 	column="b_readcount" />
+		<result property="b_ref" 		column="b_ref" />
+		<result property="b_re_step" 	column="b_re_step" />
+		<result property="b_re_level" 	column="b_re_level" />
+		<result property="b_reg_date" 	column="b_reg_date" />
+		<result property="id" 			column="id" />
+		<result property="b_pass" 		column="b_pass" />
+	</resultMap>
+	
+	<select id="list" parameterType="hashMap" resultMap="kboardResult">
+	<!-- a를 ()로 지정해주고 a의 모든 것을 골름.  -->
+		select * from (select a.*, rowNum rn from 
+			(select * from kboard order by b_ref desc, b_re_step) a)
+			where rn between #{startRow} and ${endRow}
+	</select>
+	
+	<select id="total" resultType="int">
+		select count(*) from kboard
+	</select>	
+	<select id="numMax" resultType="int">
+		select nvl(max(b_num), 0)+1 from kboard
+	</select>
+	<insert id="insert" parameterType="kboard">
+ 		<!-- <selectKey keyProperty="b_num" order="BEFORE" resultType="int">
+			select nvl(max(b_num), 0)+1 from kboard
+		</selectKey> --> 
+		insert into kboard values(#{b_num},#{b_subject},#{b_content},
+		0, #{b_ref}, #{b_re_step}, #{b_re_level}, sysdate, #{id}, #{b_pass})
+	</insert>
+
+	<select id="select" parameterType="int" resultType="kboard">
+		select * from kboard where b_num = #{b_num}
+	</select>
+	
+	<update id="update" parameterType="kboard">
+		update kboard set b_subject=#{b_subject}, b_content=#{b_content} where b_num=#{b_num}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete kboard where b_num=#{b_num}
+	</delete>
+	<update id="boardUpdate">
+		update kboard set b_re_step=b_re_step+1 where b_ref=#{b_ref} and b_re_step > #{b_re_step}
+	</update>
+	<update id="readcountUpdate" parameterType="int">
+		update kboard set b_readcount=b_readcount+1 where b_num=#{b_num}
+	</update>
+</mapper>

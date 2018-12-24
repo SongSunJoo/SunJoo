@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="db.properties" />
+	<typeAliases>
+		<typeAlias alias="auction_result" 	type="Kbay.model.Auction_result" />
+		<typeAlias alias="auction" 			type="Kbay.model.Auction" />
+		<typeAlias alias="kboard" 			type="Kbay.model.Kboard" />
+		<typeAlias alias="kmanager" 		type="Kbay.model.KManager" />
+		<typeAlias alias="kmember" 			type="Kbay.model.Kmember" />
+		<typeAlias alias="knotice" 			type="Kbay.model.Knotice" />
+		<typeAlias alias="product" 			type="Kbay.model.Product" />
+		<typeAlias alias="productClass1" 	type="Kbay.model.ProductClass1" />
+		<typeAlias alias="productClass2" 	type="Kbay.model.ProductClass2" />
+		<typeAlias alias="productInfo" 		type="Kbay.model.ProductInfo" />
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="auction_result.xml" />
+		<mapper resource="auction.xml" />
+		<mapper resource="kboard.xml" />
+		<mapper resource="kmanager.xml" />
+		<mapper resource="kmember.xml" />
+		<mapper resource="knotice.xml" />
+		<mapper resource="product.xml" />
+		<mapper resource="productClass1.xml" />
+		<mapper resource="productClass2.xml" />
+		<mapper resource="productInfo.xml" />
+	</mappers>
+</configuration>

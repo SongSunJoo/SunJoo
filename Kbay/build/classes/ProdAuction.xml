@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProdAuctionns">
+	<resultMap type="ProdAuction" id="ProdAuctionResult">
+		<result property="p_num" column="p_num" />
+		<result property="p_name" column="p_name" />
+		<result property="p_used" column="p_used" />
+		<result property="p_price" column="p_price" />
+		<result property="p_start_date" column="p_start_date" />
+		<result property="p_end_date" column="p_end_date" />
+		<result property="p_buyer" column="p_buyer" />
+		<result property="p_image" column="p_image" />
+		<result property="id" column="id"/>
+		<result property="p_auct_id" column="p_auct_id"/>
+		<result property="p_class_id1" column="p_class_id1"/>
+		<result property="p_class_id2" column="p_class_id2"/>
+		<result property="a_num" column="a_num"/>
+		<result property="a_price" column="a_price"/>
+		<result property="a_reg_date" column="a_reg_date"/>
+	</resultMap>
+</mapper>

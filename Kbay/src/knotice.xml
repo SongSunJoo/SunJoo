@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="knoticens">
+	<resultMap type="knotice" id="knoticeResult">
+		<result property="n_num" 		column="n_num" />
+		<result property="m_id"   		column="m_id" />
+		<result property="n_subject"   	column="n_subject" />
+		<result property="n_content" 	column="n_content" />
+		<result property="n_reg_date"   column="n_reg_date" />
+	</resultMap>
+	
+	<select id="list" parameterType="hashMap" resultMap="knoticeResult">
+		select * from (select a.*, rowNum rn from (
+			select * from knotice order by n_reg_date desc) a)
+			where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="total" resultType="int">
+		select count(*) from knotice
+	</select>
+	<select id="select" parameterType="int" resultType="knotice">
+		select * from knotice where n_num=#{n_num}
+	</select>
+	<insert id="insert" parameterType="knotice">
+		<selectKey keyProperty="n_num" order="BEFORE" resultType="int">
+			select nvl(max(n_num),0) + 1 from knotice
+		</selectKey>
+		insert into knotice values (#{n_num}, #{m_id}, #{n_subject}, #{n_content}, sysdate)
+	</insert>
+	<update id="update" parameterType="knotice">
+		update knotice set n_subject=#{n_subject}, n_content=#{n_content} where n_num=#{n_num}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete knotice where n_num=#{n_num}
+	</delete>
+</mapper>
