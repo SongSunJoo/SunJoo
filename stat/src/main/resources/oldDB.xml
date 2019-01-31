@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="oldDBns">
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<resultMap id="oldDBResult" type="oldDB">
+		<result property="oldDB_id" 	column="oldDB_id" />
+		<result property="oldDB_value" 	column="oldDB_value" />
+		<result property="oldDB_age20" 	column="oldDB_age20" />
+		<result property="oldDB_age30" 	column="oldDB_age30" />
+		<result property="oldDB_age40" 	column="oldDB_age40" />
+	</resultMap>
+	
+	<select id="selectOld" parameterType="int" resultType="String">
+		select oldDB_value from oldDB where oldDB_id = #{oldDB_id}
+	</select>
+	
+	
+</mapper>

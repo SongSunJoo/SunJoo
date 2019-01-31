@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ageDBns">
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<resultMap id="ageDBResult" type="ageDB">
+		<result property="ageDB_id" 	column="ageDB_id" />
+		<result property="ageDB_value" 	column="ageDB_value" />
+	</resultMap>
+	
+	<select id="select" parameterType="String" resultType="int">
+		select ageDB_value from ageDB where ageDB_id = #{gender}
+	</select>
+	
+	
+</mapper>

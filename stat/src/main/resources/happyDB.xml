@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="happyDBns">
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<resultMap id="happyDBResult" type="happyDB">
+		<result property="happyDB_id" 		column="happyDB_id" />
+		<result property="happyDB_value" 	column="happyDB_value" />
+	</resultMap>
+	
+	<select id="selectHappy" parameterType="int" resultType="String">
+		select happyDB_value from happyDB where happyDB_id = #{happyDB_id}
+	</select>
+	
+	
+</mapper>

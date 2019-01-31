@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="statUser" type="com.ch.stat.model.StatUser" />
+		<typeAlias alias="ageDB"    type="com.ch.stat.model.AgeDB" />
+		<typeAlias alias="tourDB"   type="com.ch.stat.model.TourDB" />
+		<typeAlias alias="oldDB"    type="com.ch.stat.model.OldDB" />
+		<typeAlias alias="digitalDB" type="com.ch.stat.model.DigitalDB" />
+		<typeAlias alias="mobileDB" type="com.ch.stat.model.MobileDB" />
+		<typeAlias alias="transDB"  type="com.ch.stat.model.TransDB" />
+		<typeAlias alias="happyDB"  type="com.ch.stat.model.HappyDB" />
+		<typeAlias alias="poll"		type="com.ch.stat.model.Poll" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="statUser.xml" />
+		<mapper resource="ageDB.xml" />
+		<mapper resource="tourDB.xml" />
+		<mapper resource="oldDB.xml" />
+		<mapper resource="digitalDB.xml" />
+		<mapper resource="mobileDB.xml" />
+		<mapper resource="transferDB.xml" />
+		<mapper resource="happyDB.xml" />
+		<mapper resource="poll.xml" />
+	</mappers>
+</configuration>

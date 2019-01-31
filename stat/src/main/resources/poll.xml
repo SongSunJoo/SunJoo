@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pollns">
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<resultMap id="pollResult" type="poll">
+		<result property="poll_id" 			column="poll_id"/>
+		<result property="poll_title" 		column="poll_title"/>
+		<result property="poll_cont1" 		column="poll_cont1"/>
+		<result property="poll_cont2"   	column="poll_cont2"/>
+		<result property="poll_cont1_cnt"   column="poll_cont1_cnt"/>
+		<result property="poll_cont2_cnt"   column="poll_cont2_cnt"/>
+		<result property="poll_startDate"   column="poll_startDate"/>
+		<result property="poll_endDate"   	column="poll_endDate"/>
+	</resultMap>
+	
+	<select id="selectPoll" parameterType="poll" resultType="poll" >
+	    select * from poll where poll_id=#{poll_id}
+	</select>
+	
+	<select id="select_latestPollId" resultType="int">
+		select poll_id, rowNum rn from poll where rowNum = 1 order by poll_id desc
+	</select>
+	
+	<update id="updatePoll" parameterType="poll">
+<!-- 		<if test="poll_cont1 != null">
+			update poll set poll_cont1_cnt=poll_cont1_cnt+1 where poll_id=#{poll_id}
+		</if>
+	    <if test="poll_cont2 != null">
+			update poll set poll_cont2_cnt=poll_cont2_cnt+1 where poll_id=#{poll_id}
+		</if> -->
+		update poll set poll_cont1_cnt=#{poll_cont1_cnt}, poll_cont2_cnt=#{poll_cont2_cnt} where poll_id=#{poll_id} 
+	</update>
+	
+	<select id="getTotal" parameterType="poll" resultType="int">
+		<!-- select count(*) from poll -->
+		select count(*) from poll where poll_endDate <![CDATA[<]]> sysdate order by poll_id desc
+	</select>
+	
+	<select id="list" parameterType="poll" resultMap="pollResult">
+		select * from (select a.*, rowNum rn from 
+			(select * from poll where poll_endDate <![CDATA[<]]> sysdate order by poll_id desc) a) 
+				where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="ongoinglist" parameterType="poll" resultMap="pollResult">
+		select * from poll where poll_endDate > sysdate
+	</select>
+	
+	<select id="maxNum" resultType="int">
+		select nvl(max(poll_id),0) + 1 from poll
+	</select>
+	
+	<insert id="insert" parameterType="poll">
+		insert into poll (poll_id, poll_title, poll_cont1, poll_cont2, poll_startDate, poll_endDate) 
+		values (#{poll_id},#{poll_title},#{poll_cont1},#{poll_cont2},#{poll_startDate},#{poll_endDate})
+	</insert>
+</mapper>

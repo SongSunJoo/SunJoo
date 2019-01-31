@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="transDBns">
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<resultMap id="transDBResult" type="transDB">
+		<result property="transDB_id" 		column="transDB_id" />
+		<result property="transDB_value" 	column="transDB_value" />
+		<result property="transDB_percent" 	column="transDB_percent" />
+	</resultMap>
+	
+	<select id="selectTrans" parameterType="int" resultType="String">
+		select transDB_value from transferDB where transDB_id = #{transDB_id}
+	</select>
+	
+	
+</mapper>

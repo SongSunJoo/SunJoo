@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tourDBns">
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<resultMap id="tourDBResult" type="tourDB">
+		<result property="tourDB_id1" 		column="tourDB_id1" />
+		<result property="tourDB_nation" 	column="tourDB_nation" />
+		<result property="tourDB_m20" 		column="tourDB_m20" />
+		<result property="tourDB_m30" 		column="tourDB_m30" />
+		<result property="tourDB_m40" 		column="tourDB_m40" />
+		<result property="tourDB_f20" 		column="tourDB_f20" />
+		<result property="tourDB_f30" 		column="tourDB_f30" />
+		<result property="tourDB_f40" 		column="tourDB_f40" />
+	</resultMap>
+	
+	<select id="selectNation" parameterType="int" resultType="String">
+		select tourDB_nation from tourDB where tourDB_id1=#{tourDB_id1}
+	</select>
+	
+	
+</mapper>

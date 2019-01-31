@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="digitalDBns">
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<resultMap id="digitalDBResult" type="digitalDB">
+		<result property="digitalDB_id" 	 column="digitalDB_id" />
+		<result property="digitalDB_value" 	 column="digitalDB_value" />
+		<result property="digitalDB_percent" column="digitalDB_percent" />
+	</resultMap>
+	
+	<select id="selectDigital" parameterType="int" resultType="String">
+		select digitalDB_value from digitalDB where digitalDB_id = #{digitalDB_id}
+	</select>
+	
+	
+</mapper>

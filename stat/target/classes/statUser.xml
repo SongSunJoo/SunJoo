@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="statUserns">
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<resultMap id="statUserResult" type="statUser">
+		<result property="user_id" 		column="user_id" />
+		<result property="user_place" 	column="user_place" />
+		<result property="user_gender"  column="user_gender" />
+		<result property="user_age"   	column="user_age" />
+		<result property="user_group"   column="user_group" />
+		<result property="pet_value" 	column="pet_value" />
+		<result property="height_value" column="height_value" />
+		<result property="ln_value"    	column="ln_value" />
+		<result property="transDB_id"   column="transDB_id" />
+		<result property="digitalDB_id" column="digitalDB_id" />
+		<result property="happyDB_id"   column="happyDB_id" />
+		<result property="tourDB_id1"  	column="tourDB_id1" />
+		<result property="oldDB_id"     column="oldDB_id" />
+		<result property="mobileDB_id"  column="mobileDB_id" />
+		<result property="user_nick" 	column="user_nick" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="statUser">
+		<selectKey keyProperty="user_id" order="BEFORE" resultType="int">
+			select nvl(max(user_id),0)+1 from statUser
+		</selectKey>
+		insert into statUser (user_id, user_place, user_gender, user_age, user_group) 
+					values   (#{user_id}, #{user_place}, #{user_gender}, #{user_age}, #{user_group})
+	</insert>
+	
+	<select id="updateHeight" parameterType="hashMap" resultType="int">
+		update statUser set height_value=#{height_value} where user_id=#{user_id}
+	</select>
+	
+	<select id="selectUserId" resultType="int">
+	    select nvl(max(user_id),0) from statUser
+	</select>
+	
+	<select id="updateName" parameterType="hashMap" resultType="int">
+		update statUser set ln_value=#{ln_value} where user_id=#{user_id}
+	</select>
+	
+	<select id="updateAnimal" parameterType="hashMap" resultType="int">
+		update statUser set pet_value=#{pet_value} where user_id=#{user_id}
+	</select>
+	
+	<select id="updateTour" parameterType="hashMap" resultType="int">
+		update statUser set tourDB_id1=#{tourDB_id1} where user_id=#{user_id}
+	</select>
+	
+	<select id="updateOld" parameterType="hashMap" resultType="int">
+		update statUser set oldDB_id=#{oldDB_id} where user_id=#{user_id}
+	</select>
+	
+	<select id="updateDigital" parameterType="hashMap" resultType="int">
+		update statUser set digitalDB_id=#{digitalDB_id} where user_id=#{user_id}
+	</select>
+	
+	<select id="updateMobile" parameterType="hashMap" resultType="int">
+		update statUser set mobileDB_id=#{mobileDB_id} where user_id=#{user_id}
+	</select>
+	
+	<select id="updateTrans" parameterType="hashMap" resultType="int">
+		update statUser set transDB_id=#{transDB_id} where user_id=#{user_id}
+	</select>
+	
+	<select id="updateHappy" parameterType="hashMap" resultType="int">
+		update statUser set happyDB_id=#{happyDB_id} where user_id=#{user_id}
+	</select>
+	
+	<select id="updateNick" parameterType="hashMap" resultType="int">
+		update statUser set user_nick=#{user_nick} where user_id=#{user_id}
+	</select>
+	
+	<select id="selectAll" parameterType="int" resultType="statUser">
+	    select * from statUser where user_id = #{user_id}
+	</select>
+</mapper>

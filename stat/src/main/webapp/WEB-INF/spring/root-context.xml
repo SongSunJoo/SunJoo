@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 공통적인 것을 모두 여기에서 설정한다 -->
+	<!-- 일반적으로 DB 연결하는 부분을 넣어준다 -->
+
+	<!-- database 연결은 공통적인 부분이므로 root-Context.xml에 정의해 준다 -->
+	<context:property-placeholder
+		location="classpath:db.properties" />
+
+	<!-- 스프링 jdbc 즉 스프링으로 oracle 디비 연결 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:configuration.xml " />
+	</bean>
+	<bean id="session" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${driver}" />
+		<property name="jdbcUrl" value="${url}" />
+		<property name="user" value="${userId}" />
+		<property name="password" value="${password}" />
+		<property name="maxPoolSize" value="${maxPoolSize}" />
+	</bean>
+	
+	<!-- SET default mail properties -->
+	<bean id="jMailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com" />
+		<property name="port" value="465" />
+		<property name="username" value="sunyae5057" />
+		<property name="password" value="chita5057" />
+		<property value="smtps" name="protocol" />
+		<property value="utf-8" name="defaultEncoding" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+				<prop key="mail.smtps.ssl.trust">*</prop>
+				<!-- <prop key="mail.debug">true</prop> -->
+			</props>
+		</property>
+	</bean>
+</beans>
